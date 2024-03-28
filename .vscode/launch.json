@@ -6,13 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "HelloApplication",
-            "request": "launch",
-            "mainClass": "ro.unibuc.contact.HelloApplication",
-            "projectName": "hello"
-        },
-        {
-            "type": "java",
             "name": "Service",
             "request": "launch",
             "mainClass": "ro.unibuc.hello.HelloApplication",
