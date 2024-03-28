@@ -1,5 +1,7 @@
 package ro.unibuc.contact.dto;
 
+
+
 public class CreateUserResponse {
 
     private String userId;

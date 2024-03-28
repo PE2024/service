@@ -7,6 +7,8 @@ import ro.unibuc.contact.data.UserEntity;
 import ro.unibuc.contact.data.UserRepository;
 import ro.unibuc.contact.exception.EntityNotFoundException;
 
+import ro.unibuc.contact.dto.UserDTO;
+
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -20,8 +22,23 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    
+    public UserEntity createUserByDTO(UserDTO user) {
+        try{
+        UserEntity userEntity = new UserEntity();
+        userEntity.email = user.getEmail();
+        userEntity.username = user.getUsername();
+        userEntity.password = user.getPassword();
+        return createUser(userEntity);
+        } catch (Exception e) {
+            log.error("Error creating user: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
     public UserEntity createUser(UserEntity user) {
         try {
+
             return userRepository.save(user);
         } catch (Exception e) {
             log.error("Error creating user: {}", e.getMessage(), e);
