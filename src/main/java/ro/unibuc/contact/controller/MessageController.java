@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ro.unibuc.contact.data.UserEntity;
-import ro.unibuc.contact.dto.CreateMessageDTO;
+import ro.unibuc.contact.dto.MessageDTO;
 import ro.unibuc.contact.dto.UserAuthDTO;
 import ro.unibuc.contact.exception.EntityNotFoundException;
 import ro.unibuc.contact.service.MessageService;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.unibuc.contact.service.UserService;
+
+import javax.validation.Valid;
 
 
 @Controller
@@ -46,7 +48,7 @@ public class MessageController{
 
     @PostMapping("/messages")
     @ResponseBody
-    public ResponseEntity<?> createMessage(@RequestBody CreateMessageDTO messageRequest) {
+    public ResponseEntity<?> createMessage(@RequestBody @Valid MessageDTO messageRequest) {
         Optional<UserEntity> user = userService.findByUsername(messageRequest.getUsername());
         if (!user.isPresent()) {
             return ResponseEntity.badRequest().body("User not found");
@@ -65,7 +67,7 @@ public class MessageController{
 
     @GetMapping("/messages")    
     @ResponseBody
-    public ResponseEntity<?> getMessagesForUser(@RequestBody UserAuthDTO userAuth){
+    public ResponseEntity<?> getMessagesForUser(@RequestBody @Valid UserAuthDTO userAuth){
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -75,7 +77,7 @@ public class MessageController{
 
     @GetMapping("/messages/{messageId}")
     @ResponseBody
-    public ResponseEntity<?> getMessage(@RequestBody UserAuthDTO userAuth, @PathVariable String messageId){
+    public ResponseEntity<?> getMessage(@RequestBody @Valid UserAuthDTO userAuth, @PathVariable String messageId){
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
             return ResponseEntity.badRequest().body("Unaothorized");
@@ -84,7 +86,7 @@ public class MessageController{
     }
 
     @DeleteMapping("/messages/{messageId}")
-    public ResponseEntity<?> deleteMessage(@RequestBody UserAuthDTO userAuth, @PathVariable String messageId) {
+    public ResponseEntity<?> deleteMessage(@RequestBody @Valid UserAuthDTO userAuth, @PathVariable String messageId) {
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

@@ -4,16 +4,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import ro.unibuc.contact.dto.CreateUserResponse;
+import ro.unibuc.contact.dto.UserDTO;
 import ro.unibuc.contact.service.UserService;
 import ro.unibuc.contact.data.UserEntity;
 import ro.unibuc.contact.exception.EntityNotFoundException;
 
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 import java.util.Optional;
 
@@ -23,17 +28,18 @@ public class UserController{
     @Autowired
     private UserService userService;
 
+
     @PostMapping("/users")
     @ResponseBody
-    public ResponseEntity<?> createUser(@RequestBody UserEntity user) {
-        Optional<UserEntity> existingUser = userService.findByUsername(user.username);
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserDTO user) {
+        Optional<UserEntity> existingUser = userService.findByUsername(user.getUsername());
         if (existingUser.isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
        
         UserEntity newUser;
         try {
-            newUser = userService.createUser(user);
+            newUser = userService.createUserByDTO(user);
         } catch (Exception exception) {
             return ResponseEntity.internalServerError().build();
         }
