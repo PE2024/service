@@ -50,6 +50,19 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public Optional<UserEntity> findById(String id) {
+        return userRepository.findById(id);
+    }
+
+    public UserEntity updateUser(UserEntity user) {
+        try {
+            return userRepository.save(user);
+        } catch (Exception e) {
+            log.error("Error updating user: {}", e.getMessage(), e);
+            throw e;
+        }
+    }
+
     public void deleteUser(String userId) {
        if (!userRepository.existsById(userId)) {
             throw new EntityNotFoundException("User not found with ID: " + userId);
