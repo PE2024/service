@@ -6,7 +6,7 @@ public class UpdateUserPasswordRequest {
     UpdateUserPasswordRequest() {
         
     }
-    UpdateUserPasswordRequest(String password) {
+    public UpdateUserPasswordRequest(String password) {
         this.password = password;
     }
 
