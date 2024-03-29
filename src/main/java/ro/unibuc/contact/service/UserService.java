@@ -11,13 +11,9 @@ import ro.unibuc.contact.dto.UserDTO;
 
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Component
 public class UserService {
 
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -31,7 +27,6 @@ public class UserService {
         userEntity.password = user.getPassword();
         return createUser(userEntity);
         } catch (Exception e) {
-            log.error("Error creating user: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -41,7 +36,6 @@ public class UserService {
 
             return userRepository.save(user);
         } catch (Exception e) {
-            log.error("Error creating user: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -58,7 +52,6 @@ public class UserService {
         try {
             return userRepository.save(user);
         } catch (Exception e) {
-            log.error("Error updating user: {}", e.getMessage(), e);
             throw e;
         }
     }
@@ -68,10 +61,8 @@ public class UserService {
             throw new EntityNotFoundException("User not found with ID: " + userId);
         }
         try {
-            log.info("Deleting user with id: {}", userId);
             userRepository.deleteById(userId);
         } catch (Exception e) {
-            log.error("Error deleting user: {}", e.getMessage(), e);
             throw e;
         } 
     }
