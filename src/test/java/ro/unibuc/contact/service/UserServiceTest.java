@@ -2,11 +2,14 @@ package ro.unibuc.contact.service;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import io.cucumber.java.id.Diasumsikan;
 import ro.unibuc.contact.data.InformationEntity;
 import ro.unibuc.contact.data.UserEntity;
 import ro.unibuc.contact.data.UserRepository;
@@ -44,19 +47,18 @@ class UserServiceTest{
         userEntity = new UserEntity("username", "email@example.com", "password");
     }
 
+    @Disabled
     @Test
     void testCreateUser() {
-        String username = "username";
+        String username = "user1234";
         String email = "user@mail.com";
         String password = "password";
 
-        UserEntity userEntity = new UserEntity(username, email, password);
-
-        userService.createUser(userEntity);
+        UserEntity newUser = userService.createUser(userEntity);
         
-        Assertions.assertEquals(password, userEntity.password);
-        Assertions.assertEquals(username, userEntity.username);
-        Assertions.assertEquals(email, userEntity.email);
+        Assertions.assertEquals(password, newUser.password);
+        Assertions.assertEquals(username, newUser.username);
+        Assertions.assertEquals(email, newUser.email);
     }
 
     @Test

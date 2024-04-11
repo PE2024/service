@@ -70,7 +70,7 @@ public class MessageController{
     public ResponseEntity<?> getMessagesForUser(@RequestBody @Valid UserAuthDTO userAuth){
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         return ResponseEntity.ok(messageService.getMessagesForUser(userId.get()));
     }
@@ -82,6 +82,9 @@ public class MessageController{
         if (!userId.isPresent()) {
             return ResponseEntity.badRequest().body("Unaothorized");
         }
+        if (!messageService.findById(messageId).isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.ok(messageService.findById(messageId));
     }
 
@@ -89,7 +92,7 @@ public class MessageController{
     public ResponseEntity<?> deleteMessage(@RequestBody @Valid UserAuthDTO userAuth, @PathVariable String messageId) {
         Optional<String> userId = checkAuth(userAuth);
         if (!userId.isPresent()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
          try {
             messageService.deleteMessage(messageId);
