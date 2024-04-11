@@ -33,7 +33,6 @@ public class UserService {
 
     public UserEntity createUser(UserEntity user) {
         try {
-
             return userRepository.save(user);
         } catch (Exception e) {
             throw e;
