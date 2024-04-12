@@ -32,8 +32,8 @@ pipeline {
                         """
                     }
 
-                    sh "git tag ${env.IMAGE_TAG}"
-                    sh "git push https://$GITHUB_TOKEN@github.com/PE2024/service.git ${env.IMAGE_TAG}"
+                    sh "git tag ${env.NEW_TAG}"
+                    sh "git push https://$GITHUB_TOKEN@github.com/PE2024/service.git ${env.NEW_TAG}"
 
                 }
             }
