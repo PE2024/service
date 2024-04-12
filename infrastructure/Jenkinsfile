@@ -24,6 +24,7 @@ pipeline {
                         env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
 
                     }
+                    sh "./gradlew testE2E"
                     sh "docker build -t tgeorget/hello-img:${env.IMAGE_TAG} ."
 
                     withCredentials([usernamePassword(credentialsId: 'docker_password', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
