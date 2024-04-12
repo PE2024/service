@@ -35,7 +35,7 @@ pipeline {
 
                     sh "git tag ${env.IMAGE_TAG}"
                     sh "git push https://$GITHUB_TOKEN@github.com/PE2024/service.git ${env.IMAGE_TAG}"
-                    sh "IMAGE_TAG=${env.IMAGE_TAG} docker compose up -f docker-compose.jenkins.yml -d hello mongo"
+                    sh "IMAGE_TAG=${env.IMAGE_TAG} docker compose -f docker-compose.jenkins.yml up -d hello mongo"
                 }
             }
         }
