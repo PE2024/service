@@ -7,11 +7,10 @@ pipeline {
     }
 
     stages {
-        stage('Build & Test') {
+        stage('Build') {
             steps {
                 sh './gradlew clean build'
-                sh './gradlew testE2E'
-            }
+            } 
         }
 
         stage('Prepare & Tag Image') {
@@ -38,6 +37,12 @@ pipeline {
                     sh "git push https://$GITHUB_TOKEN@github.com/PE2024/service.git ${env.IMAGE_TAG}"
                     sh "IMAGE_TAG=${env.IMAGE_TAG} docker compose -f docker-compose.jenkins.yml up -d hello mongo"
                 }
+            }
+        }
+
+        stage('Test') {
+            steps{
+               sh './gradlew testE2E'
             }
         }
     }
